@@ -18,10 +18,10 @@ import net.openhft.chronicle.map.*;
 
 public class ChronicleMapCache implements CacheInterface  {
 	
-	private final ChronicleMap<Long, Entry> persistedMap;
+	private final ChronicleMap<Long, Entry> pMap;
 	
 	public ChronicleMapCache(ChronicleMap<Long, Entry> entries) {
-		persistedMap=entries;
+		pMap=entries;
 		
     }
 	
@@ -29,7 +29,7 @@ public class ChronicleMapCache implements CacheInterface  {
 	public Entry save(Entry newEntry) {
 		// TODO Auto-generated method stub
 		checkNotNull(newEntry, "newEntry instance must not be null");
-		persistedMap.putIfAbsent(newEntry.getKey(), newEntry);
+		pMap.putIfAbsent(newEntry.getKey(), newEntry);
 		return null;
 	}
 	@Override
@@ -37,11 +37,11 @@ public class ChronicleMapCache implements CacheInterface  {
 		// TODO Auto-generated method stub
 		checkArgument(key > 0,
                 "Key was %s but expected greater than zero value", key);
-		return persistedMap.get(key);
+		return pMap.get(key);
 	}
 	@Override
 	public List<Entry> getAll() {
 		// TODO Auto-generated method stub
-		return new ArrayList<Entry>(persistedMap.values());
+		return new ArrayList<Entry>(pMap.values());
 	}
 }
